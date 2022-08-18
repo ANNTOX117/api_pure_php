@@ -1,0 +1,17 @@
+{
+    "name": "api_php/api",
+    "description": "api of users",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "ApiPhp\\Api\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Antonio Razo Lopez",
+            "email": "antonio.r.lpz92@gmail.com"
+        }
+    ],
+    "require": {}
+}
