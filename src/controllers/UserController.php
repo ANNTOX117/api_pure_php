@@ -22,6 +22,8 @@ class UserController{
 
     public function insert_users()
     {
+        $all_users = file_get_contents(ABSPATH."/data/user_data.json");
+        $insert_data = json_decode($all_users);
         $data = array(
             "name" => $this->name,
             "lastname" => $this->lastname,
@@ -31,7 +33,11 @@ class UserController{
             "sex" => $this->sex,
             "celphone" => $this->celphone
         );
-        return $data;
+        array_push($insert_data,$data);
+        $archivo = fopen(ABSPATH."/data/user_data.json","w");
+        fwrite($archivo,json_encode($insert_data));
+        fclose($archivo);
+        return $insert_data;
     }
 
     public static function get_all_users()
