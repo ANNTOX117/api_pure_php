@@ -1,10 +1,25 @@
 <?php
-    //header('Content-Type: application/json; charset=utf-8');
+    header('Content-Type: application/json; charset=utf-8');
+    include "../controllers/UserController.php";
     $error = [];
     $mesagge = [];
     switch ($_SERVER["REQUEST_METHOD"]) {
         case 'GET':
-            echo (count($_GET) > 0)? "Se va a seleccionar a un usuario":"Se van a seleccionar a todos los usuarios";
+            if (count($_GET) > 0) {
+                $id = isset($_GET["id"])?htmlspecialchars($_GET["id"]):false;
+                $name = isset($_GET["name"])?htmlspecialchars($_GET["name"]):false;
+                $lastname = isset($_GET["lastname"])?htmlspecialchars($_GET["lastname"]):false;
+                $email = isset($_GET["email"])?htmlspecialchars($_GET["email"]):false;
+                $birthday = isset($_GET["birthday"])?htmlspecialchars($_GET["birthday"]):false;
+                $role = isset($_GET["role"])?htmlspecialchars($_GET["role"]):false;
+                $sex = isset($_GET["sex"])?htmlspecialchars($_GET["sex"]):false;
+                $celphone = isset($_GET["celphone"])?htmlspecialchars($_GET["celphone"]):false;
+                $data = UserController::get_users_by_condition($id,$name,$lastname,$email,$birthday,$role,$sex,$celphone);
+                echo (count($data) > 0) ? json_encode($data): '{"no_data":"there\'s no data or the keys added in the URL don\'t exist"}';
+            }else{
+                $data = UserController::get_all_users();
+                echo json_encode($data);
+            }
             break;
         case 'POST':
             $post_json = json_decode(file_get_contents("php://input"));
@@ -12,7 +27,7 @@
                 array_push($error,["validate_json"=>"the json is not valid"]);
                 die(json_encode($error));
             }
-            if(count((array)$post_json) > 7){
+            if(count((array)$post_json) > 8){
                 array_push($error,["validate_json"=>"You have more atributes allowed in the json"]);
                 die(json_encode($error));
             }
@@ -61,6 +76,11 @@
                     array_push($error,["invalid_value"=>"the celphone value needs to have at least 10 numbers"]);
                     die(json_encode($error));
             }
+            //echo json_encode($post_json);
+            //var_dump($post_json->name,$post_json->lastname,$post_json->email,$post_json->birthday,$post_json->role,$post_json->sex,$post_json->celphone);
+            //$user = new UserController($post_json->name,$post_json->lastname,$post_json->email,$post_json->birthday,$post_json->role,$post_json->sex,$post_json->celphone); 
+            $user = new UserController("Robert","Chiflido","a@mail.com","2002-01-01","student","man","2211219331");
+            var_dump($user->insert_users());  
             break;
         case 'PUT':
             echo "Aqui en put";

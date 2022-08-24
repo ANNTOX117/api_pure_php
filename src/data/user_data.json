@@ -1,0 +1,33 @@
+[
+    {
+        "id" : 1,
+        "name" : "Antonio",
+        "lastname" : "Razo",
+        "email" : "antonio@mail.com",
+        "birthday" : "2022-01-01",
+        "role" : "student",
+        "sex" : "man",
+        "celphone" : "2211219331"
+    },
+    {
+        "id" : 2,
+        "name" : "Jose",
+        "lastname" : "Razo",
+        "email" : "jose@mail.com",
+        "birthday" : "2022-01-01",
+        "role" : "student",
+        "sex" : "man",
+        "celphone" : "1122112222"
+    },
+    {
+        "id" : 3,
+        "name" : "Zoila",
+        "lastname" : "Villanueva",
+        "email" : "zoila@mail.com",
+        "birthday" : "1949-01-01",
+        "role" : "teacher",
+        "sex" : "woman",
+        "celphone" : "2233445566"
+    }
+
+]
