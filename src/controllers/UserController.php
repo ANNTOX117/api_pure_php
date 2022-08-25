@@ -1,6 +1,7 @@
 <?php 
 include "../config.php";
 class UserController{
+    private $id;
     private $name;
     private $lastname;
     private $email;
@@ -9,8 +10,9 @@ class UserController{
     private $sex;
     private $celphone;
 
-    public function __construct($name,$lastname,$email,$birthday,$role,$sex,$celphone = null)
+    public function __construct($id = null,$name = null,$lastname = null,$email = null,$birthday = null,$role = null,$sex = null,$celphone = null)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->lastname = $lastname;
         $this->email = $email;
@@ -25,6 +27,7 @@ class UserController{
         $all_users = file_get_contents(ABSPATH."/data/user_data.json");
         $insert_data = json_decode($all_users);
         $data = array(
+            "id" => $this->id,
             "name" => $this->name,
             "lastname" => $this->lastname,
             "email" => $this->email,
@@ -71,4 +74,24 @@ class UserController{
         return $data_return;
     }
 
+    public function update_user($id)
+    {
+        $data = json_decode(file_get_contents(ABSPATH."/data/user_data.json"));
+        foreach ($data as $data_) {
+            if ($data_->id == $id) {
+                $data_->name = isset($this->name)?$this->name:$data_->name; 
+                $data_->lastname = isset($this->lastname)?$this->lastname:$data_->lastname; 
+                $data_->email = isset($this->email)?$this->email:$data_->email; 
+                $data_->birthday = isset($this->birthday)?$this->birthday:$data_->birthday;
+                $data_->role = isset($this->role)?$this->role:$data_->role;
+                $data_->sex = isset($this->sex)?$this->sex:$data_->sex;
+                $data_->celphone = isset($this->celphone)?$this->celphone:$data_->celphone;
+            }
+        }
+        $data = json_encode($data);
+        $archivo = fopen(ABSPATH."/data/user_data.json","w");
+        fwrite($archivo,$data);
+        fclose($archivo);
+        return $data;   
+    }
 }
