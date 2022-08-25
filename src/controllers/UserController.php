@@ -94,4 +94,19 @@ class UserController{
         fclose($archivo);
         return $data;   
     }
+
+    public static function delete_user($id)
+    {
+        $data = json_decode(file_get_contents(ABSPATH."/data/user_data.json"));
+        foreach ($data as $key => $value) {
+            if ($value->id === $id) {
+                unset($data[$key]);
+            }
+        }   
+        $data = json_encode($data);
+        $archivo = fopen(ABSPATH."/data/user_data.json","w");
+        fwrite($archivo,$data);
+        fclose($archivo);
+        return $data;
+    }
 }

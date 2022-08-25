@@ -1,4 +1,8 @@
 <?php
+    header('Access-Control-Allow-Origin: *');
+    header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+    header("Allow: GET, POST, OPTIONS, PUT, DELETE");
     header('Content-Type: application/json; charset=utf-8');
     include "../controllers/UserController.php";
     $error = [];
@@ -44,7 +48,16 @@
             echo $id !== 0 ? $insert->update_user($id):json_encode('{"no_data":"not posible"}');
             break;
         case 'DELETE':
-            echo "Aqui en delete";
+            $id = 0;
+            if (count($_GET) > 0) {
+                if (isset($_GET["id"]) && (int)$_GET["id"] !== 0) {
+                    $id = (int)$_GET["id"];
+                }
+            }else{
+                array_push($error,["no_params_given"=>"i need the params to update"]);
+                die(json_encode($error));
+            }
+            var_dump(UserController::delete_user($id));
             break;
     }
 
